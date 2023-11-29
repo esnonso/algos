@@ -1,0 +1,71 @@
+const months = { 1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "H",
+7: "L", 8: "M", 9: "P", 10: "R", 11: "S", 12: "T" }
+
+function fiscalCode(person) {
+	let si = "";
+	let ni = "";
+	let gi = "";
+	if(person.surname.length >= 3){
+		const existingVowels = person.surname.match(/[aeiou]/gi)
+		si = person.surname.replace(/[aeiou]/gi, '')
+		si = si.length === 3 ? si
+			:si.length > 3 ? si.substring(0, 3)
+			:si + existingVowels[0]
+	}else{
+		si = person.surname+"X"
+	}
+
+	if(person.name.length >= 3){
+		const existingVowels = person.name.match(/[aeiou]/gi)
+		ni = person.name.replace(/[aeiou]/gi, '')
+		ni = ni.length === 3 ? ni
+			:ni.length > 3 ? ni.substring(0, 1)+ni.substring(2,4)
+			:ni + existingVowels[0]
+	}else{
+		ni = person.name+"X"
+	}
+	
+	const dob = person.dob.substring(person.dob.length - 2);
+	const mob = months[person.dob.split("/")[1]];
+	const dayOfBirth = +person.dob.split("/")[0];
+	
+	if(person.gender === "M"){
+		gi = dayOfBirth < 10 ? "0" + dayOfBirth : dayOfBirth;
+	}
+	
+	if(person.gender === "F"){
+		gi = dayOfBirth + 40;
+	}
+	
+	const code = si+ni+dob+mob+gi;
+	return code.toUpperCase();
+}
+fiscalCode({surname:"nneli", name:"la", dob:"1/12/2012", gender:"male"})
+
+
+function redundant(str) {
+	return () => str;
+}
+
+redundant("shshhshs")
+
+function num_of_digits(num) {
+	return  Math.abs(num).toString().length;
+}
+
+num_of_digits(1123)
+
+function compact(arr) {
+	return arr.filter(item =>((typeof item === "number" && item > 0 )
+									 ||(typeof item === "string" && item !== "")
+									 || (typeof item === "object" && item !== null)
+									 && item !== false && item !== undefined && item !== NaN
+									 ))
+}
+const compact = arr => arr.filter(Boolean);
+
+compact([0, 1, false, 2, "", 3, false, NaN, 0, undefined, {}])
+
+let text = "Visit W3Schools";
+let pattern = /w3schools/i;
+let result = text.match(pattern);
